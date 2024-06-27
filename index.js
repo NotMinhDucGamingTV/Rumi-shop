@@ -9,11 +9,7 @@ const PORT = 3000;
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers] });
 
 client.once('ready', () => {
-  console.log('Bot is ready!');
-});
-const { ActivityType } = require('discord.js')
-
-client.user.setPresence({ 
+  client.user.setPresence({ 
     activities: [{ 
         name: 'with depression', 
         type: ActivityType.Streaming, 
@@ -21,6 +17,10 @@ client.user.setPresence({
     }], 
     status: 'offline' 
 });
+
+});
+const { ActivityType } = require('discord.js')
+
 
 client.login(process.env.DISCORD_BOT_TOKEN);
 
