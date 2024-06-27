@@ -28,8 +28,8 @@ client.login(process.env.DISCORD_BOT_TOKEN);
 const authorizationUrl = `https://discord.com/api/oauth2/authorize?client_id=${process.env.DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(process.env.DISCORD_REDIRECT_URI)}&response_type=code&scope=identify%20guilds%20guilds.members.read`;
 
 // Routes
-app.get('/', (req, res) => {
-  res.send(`<a href="${authorizationUrl}">Login with Discord</a>`);
+app.get('/community/verify', (req, res) => {
+  res.redirect(authorizationUrl);
 });
 
 app.get('/community/callback', async (req, res) => {
