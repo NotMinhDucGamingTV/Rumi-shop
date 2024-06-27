@@ -3,7 +3,7 @@ const express = require('express');
 const axios = require('axios');
 const { Client, GatewayIntentBits } = require('discord.js');
 const app = express();
-const PORT = 15085;
+const PORT = process.env.PORT || 3000;
 
 // Discord Bot Setup
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers] });
