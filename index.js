@@ -9,11 +9,7 @@ const PORT = process.env.PORT || 3000;
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers] });
 
 client.once('ready', () => {
-  client.user.setPresence({ 
-    activities: [], 
-    status: 'offline' 
-});
-
+  client.user.setStatus('invisible');
 });
 const { ActivityType } = require('discord.js')
 
