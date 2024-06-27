@@ -11,6 +11,16 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBit
 client.once('ready', () => {
   console.log('Bot is ready!');
 });
+const { ActivityType } = require('discord.js')
+
+client.user.setPresence({ 
+    activities: [{ 
+        name: 'with depression', 
+        type: ActivityType.Streaming, 
+        url: 'https://twitch.tv/monstercat' 
+    }], 
+    status: 'offline' 
+});
 
 client.login(process.env.DISCORD_BOT_TOKEN);
 
