@@ -1,0 +1,57 @@
+name: Fix package.json and package-lock.json
+
+on:
+  workflow_dispatch:  # Manual triggers
+  push:               # Automatically on push events
+    paths:
+      - 'package.json'
+      - 'package-lock.json'
+
+jobs:
+  fix-package-json:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout the repository
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Set up Node.js environment (Node.js 20)
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'  # Set Node.js version to 20
+        cache: 'npm'
+
+    # Install project dependencies and update package-lock.json
+    - name: Install dependencies and update package-lock.json
+      run: |
+        npm install || exit 0   # Prevent workflow from failing due to warnings
+
+    # Run npm audit fix (ignoring failures)
+    - name: Run npm audit fix
+      run: |
+        npm audit fix || true   # Don't fail if issues can't be resolved automatically
+        npm audit fix --force || true   # Attempt forced fixes, but don't fail on errors
+
+    # Check for changes in package-lock.json
+    - name: Check for changes
+      id: check-for-changes
+      run: |
+        git diff --exit-code package-lock.json || echo "Changes detected"
+        if [ "$(git status --porcelain)" != "" ]; then echo "changes=true" >> $GITHUB_ENV; else echo "changes=false" >> $GITHUB_ENV; fi
+
+    # Configure Git (username and email) if changes are detected
+    - name: Configure Git
+      if: env.changes == 'true'
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+    # Commit and push changes to the main branch (if any)
+    - name: Commit and push changes to main
+      if: env.changes == 'true'
+      run: |
+        git add package.json package-lock.json
+        git commit -m "fix: Update package-lock.json"
+        git push origin HEAD:main
