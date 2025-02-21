@@ -127,7 +127,7 @@ app.get('/community/callback', async (req, res) => {
 </head>
 <body>
     <div class="container">
-        <h1>Chào mừng tới dinh thự!</h1>
+        <h1>Cảm ơn bạn đã xác minh, giờ chúng mình có thể add bạn lại bất cứ khi nào shop bay màu</h1>
     </div>
 </body>
 </html>`);
